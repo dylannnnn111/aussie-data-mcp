@@ -2,6 +2,7 @@
   "name": "aussie-data-mcp",
   "version": "0.1.0",
   "description": "MCP server that lets Claude query ABS, RBA and Sydney Opal (Commute Pulse) data directly.",
+  "mcpName": "io.github.dylannnnn111/aussie-data-mcp",
   "type": "module",
   "bin": {
     "aussie-data-mcp": "dist/index.js"
@@ -39,6 +40,14 @@
   ],
   "author": "Dylan Lewis (https://dylanlewis.au)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dylannnnn111/aussie-data-mcp.git"
+  },
+  "homepage": "https://github.com/dylannnnn111/aussie-data-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/dylannnnn111/aussie-data-mcp/issues"
+  },
   "engines": {
     "node": ">=18"
   },
