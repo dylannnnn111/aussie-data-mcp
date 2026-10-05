@@ -1,0 +1,673 @@
+{
+  "summary": {
+    "model": "claude-sonnet-5-5",
+    "date": "2026-10-05",
+    "total": 20,
+    "passed": 20,
+    "toolAccuracy": 1,
+    "numberAccuracy": 1,
+    "avgToolCalls": 1.6,
+    "toolErrors": 0,
+    "tokensIn": 236971,
+    "tokensOut": 9911
+  },
+  "results": [
+    {
+      "n": 1,
+      "q": "What's Australia's inflation rate right now?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 4,
+      "expectedTools": [
+        "get_cpi"
+      ],
+      "calls": [
+        {
+          "name": "get_cpi",
+          "input": {
+            "items": [
+              "all_groups",
+              "trimmed_mean"
+            ],
+            "measure": "annual_change",
+            "start": "2026-01"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 7780,
+      "answer": "Australia's annual inflation rate was **4.0% in August 2026**, the latest month available. That's the year-on-year change in the ABS monthly CPI.\n\n- **Underlying inflation:** The trimmed mean, which the RBA prefers, was **3.6%** in August. It has been at 3.6% since June and was 3.3% in January.\n- **Recent path of headline inflation:** It was 3.5% in July, up from 3.8% in June. It peaked at 4.6% in March 2026.\n\nBoth measures are above the RBA's 2–3% target band."
+    },
+    {
+      "n": 2,
+      "q": "What's the RBA's preferred measure of underlying inflation at the moment?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 3.6,
+      "expectedTools": [
+        "get_cpi"
+      ],
+      "calls": [
+        {
+          "name": "get_cpi",
+          "input": {
+            "items": [
+              "trimmed_mean"
+            ],
+            "measure": "annual_change",
+            "start": "2025-10"
+          },
+          "error": false
+        },
+        {
+          "name": "get_cpi",
+          "input": {
+            "items": [
+              "trimmed_mean"
+            ],
+            "measure": "monthly_change",
+            "start": "2026-03"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 9979,
+      "answer": "The RBA's preferred measure of underlying inflation is the **trimmed mean**. It trims the most extreme price rises and falls out of the CPI basket.\n\n- **Latest (August 2026):** trimmed mean inflation was **3.6% over the year**. The monthly change was 0.2%, seasonally adjusted.\n- **Recent trend:** the annual rate has risen from 3.3% in October 2025. It stayed at 3.3% through March 2026, then climbed to 3.4% in April, 3.5% in May and 3.6% in June. It has held at 3.6% since.\n- **Monthly changes:** these were 0.2% in March, 0.3% in April, 0.4% in May, 0.3% in June, 0.5% in July and 0.2% in August.\n\nThe annual rate is well above the RBA's 2–3% target band."
+    },
+    {
+      "n": 3,
+      "q": "How fast are rents rising in Sydney?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 3.5,
+      "expectedTools": [
+        "get_cpi"
+      ],
+      "calls": [
+        {
+          "name": "get_cpi",
+          "input": {
+            "items": [
+              "rents"
+            ],
+            "cities": [
+              "sydney",
+              "australia"
+            ],
+            "measure": "annual_change",
+            "start": "2025-01"
+          },
+          "error": false
+        },
+        {
+          "name": "get_cpi",
+          "input": {
+            "items": [
+              "rents"
+            ],
+            "cities": [
+              "sydney"
+            ],
+            "measure": "monthly_change",
+            "start": "2025-10"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 10604,
+      "answer": "Sydney rents were 3.5% higher in August 2026 than in August 2025. That is the latest ABS monthly CPI figure.\n\n- **Recent pace:** Rents have gone up about 0.3% a month lately. The monthly figures have ranged from 0.2% to 0.4% since October 2025.\n- **Trend:** Annual growth has slowed a lot. It was 5.6% in January 2025 and fell to about 3.2% by August–September 2025. Since then it has stayed in a narrow band of 3.3–3.5%, so the slowdown has levelled off.\n- **Compared with the national figure:** Rents across the eight capital cities rose 3.6% over the year to August 2026. Sydney is slightly below that.\n\nThese figures measure rents across all tenancies, including existing leases. They can differ from the asking rents on new listings."
+    },
+    {
+      "n": 4,
+      "q": "Which capital city has the fastest rent growth right now, and what is it?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 6.3,
+      "expectedTools": [
+        "get_cpi"
+      ],
+      "calls": [
+        {
+          "name": "get_cpi",
+          "input": {
+            "items": [
+              "rents"
+            ],
+            "cities": [
+              "sydney",
+              "melbourne",
+              "brisbane",
+              "adelaide",
+              "perth",
+              "hobart",
+              "darwin",
+              "canberra",
+              "australia"
+            ],
+            "measure": "annual_change",
+            "start": "2026-01"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 8542,
+      "answer": "**Darwin has the fastest rent growth of any capital city. Its rents were 6.3% higher in August 2026 than a year earlier**, according to the ABS monthly CPI.\n\nAnnual rent inflation for August 2026, fastest to slowest:\n\n| City | Annual rent growth |\n|---|---|\n| Darwin | 6.3% |\n| Perth | 5.3% |\n| Brisbane | 4.7% |\n| Adelaide | 4.1% |\n| Sydney | 3.5% |\n| Hobart | 3.1% |\n| Melbourne | 2.5% |\n| Canberra | 1.4% |\n\nThe eight-capital average is 3.6%.\n\nDarwin's rent growth has been speeding up. It was 4.1% in January 2026 and has risen every month since April. Perth was the fastest city at the start of the year, at 6.0% in January. It has since slowed to 5.3%, and Darwin overtook it."
+    },
+    {
+      "n": 5,
+      "q": "How much have electricity prices gone up over the past year?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 13.2,
+      "expectedTools": [
+        "get_cpi"
+      ],
+      "calls": [
+        {
+          "name": "get_cpi",
+          "input": {
+            "items": [
+              "electricity"
+            ],
+            "measure": "annual_change",
+            "start": "2025-06"
+          },
+          "error": false
+        },
+        {
+          "name": "get_cpi",
+          "input": {
+            "items": [
+              "electricity"
+            ],
+            "measure": "index",
+            "start": "2025-06"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 11653,
+      "answer": "**Electricity prices were 13.2% higher in August 2026 than in August 2025.** That is the latest ABS monthly CPI figure, for the Australia-wide average of the eight capital cities. The index rose from 100.45 to 113.69.\n\nThe monthly numbers swing a lot, so the 13.2% needs some context:\n\n- **Recent annual rates:** June 2026 was 22.4% and July 2026 was 6.1%. Most months from January to June 2026 were between 21% and 37%.\n- **Why it's so volatile:** The 2025 index dropped from 100.00 in September to 89.82 in October, then climbed back. That looks like the timing of government energy bill rebates, which pull the index down while they apply and push it back up when they end.\n- **Why the annual rate has eased:** Prices in July and August 2025 were still fairly low, so those months are not a high base. The index has been roughly flat at about 114 since February 2026. The annual rate is falling because the earlier comparison months are catching up, not because prices are dropping.\n\nCompared with June 2025 (index 94.41), electricity is about 20% higher, but that starting point was depressed."
+    },
+    {
+      "n": 6,
+      "q": "What's the cash rate?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 4.35,
+      "expectedTools": [
+        "get_cash_rate"
+      ],
+      "calls": [
+        {
+          "name": "get_cash_rate",
+          "input": {
+            "start": "2025-10"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 8021,
+      "answer": "The RBA cash rate target is **4.35%**. That is the latest figure I have, the monthly average for August 2026. It has been 4.35% since June 2026, and I don't have data for September yet.\n\nThe rate has risen from 3.60% over the past year:\n- **Oct 2025 to Jan 2026:** 3.60%\n- **Feb 2026:** 3.83% average\n- **Mar 2026:** 3.96% average\n- **Apr 2026:** 4.10% average\n- **May 2026:** 4.31% average\n- **Jun to Aug 2026:** 4.35%\n\nThat is a rise of 0.75 percentage points. The monthly averages suggest three 25 basis point hikes, in roughly February, March and May. That is my inference from the averages, not the announced decision dates."
+    },
+    {
+      "n": 7,
+      "q": "By how many percentage points has the cash rate risen since January 2022?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 4.25,
+      "expectedTools": [
+        "get_cash_rate"
+      ],
+      "calls": [
+        {
+          "name": "get_cash_rate",
+          "input": {
+            "start": "2022-01"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 4342,
+      "answer": "The cash rate is **4.25 percentage points** higher than in January 2022. It was 0.10% then and was 4.35% in August 2026, the latest month available. Both figures are monthly averages of the RBA's cash rate target.\n\nThe path was not a straight climb:\n- **Hikes to 2023–24:** the rate rose to 4.35% by December 2023 and stayed there through January 2025. That was already +4.25 points above January 2022.\n- **Cuts in 2025:** it fell to 3.60% by September 2025, which would have been +3.50 points.\n- **Hikes in 2026:** it rose again from February 2026 and was back at 4.35% by June 2026. It was still 4.35% in August 2026."
+    },
+    {
+      "n": 8,
+      "q": "What's the unemployment rate in NSW?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 4.3152,
+      "expectedTools": [
+        "get_labour_force"
+      ],
+      "calls": [
+        {
+          "name": "get_labour_force",
+          "input": {
+            "states": [
+              "nsw"
+            ],
+            "start": "2026-01"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 9461,
+      "answer": "NSW's seasonally adjusted unemployment rate was **4.3% in August 2026**, the latest month available. It was 4.2% in July.\n\nThe rate has moved around this year:\n- January: 4.2%\n- February: 4.1%\n- March: 4.3%\n- April: 4.4%, the highest so far this year\n- May: 4.3%\n- June: 4.0%, the lowest\n- July: 4.2%\n- August: 4.3%\n\nMonthly survey figures like these are volatile, so small moves such as June's dip and July's rebound may be partly sampling noise. Over the year the rate has stayed in a range of about 4.0% to 4.4%.\n\nSource: ABS Labour Force survey."
+    },
+    {
+      "n": 9,
+      "q": "What's Australia's unemployment rate?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 4.6463,
+      "expectedTools": [
+        "get_labour_force"
+      ],
+      "calls": [
+        {
+          "name": "get_labour_force",
+          "input": {
+            "start": "2026-01"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 7776,
+      "answer": "Australia's seasonally adjusted unemployment rate was **4.6% in August 2026** (4.65% before rounding). That's the latest figure available.\n\nIt has risen through the year:\n- January 2026: 4.1%\n- April 2026: 4.5%\n- July 2026: 4.5% (4.48%)\n- August 2026: 4.6%\n\nThat's an increase of about 0.56 percentage points since January. The rate went up by about 0.16 points between July and August."
+    },
+    {
+      "n": 10,
+      "q": "What's the labour force participation rate in Victoria?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 67.7941,
+      "expectedTools": [
+        "get_labour_force"
+      ],
+      "calls": [
+        {
+          "name": "get_labour_force",
+          "input": {
+            "measures": [
+              "participation_rate"
+            ],
+            "states": [
+              "vic",
+              "australia"
+            ],
+            "start": "2025-09"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 7600,
+      "answer": "Victoria's labour force participation rate was **67.8%** in August 2026, the latest month available. This is the seasonally adjusted figure for all persons.\n\n- **Compared with Australia:** The national rate was 67.1% in August 2026, so Victoria is about 0.7 percentage points higher.\n- **Recent trend:** Victoria's rate fell from 68.0% in September 2025 to a low of 66.9% in April 2026. It has since recovered to 67.8%.\n- **Last month:** It rose from 67.6% in July 2026 to 67.8% in August 2026.\n- **Over the past year:** It is down about 0.2 points from September 2025."
+    },
+    {
+      "n": 11,
+      "q": "What's the standard variable home loan rate banks advertise to owner-occupiers?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 8.77,
+      "expectedTools": [
+        "get_lending_rates"
+      ],
+      "calls": [
+        {
+          "name": "get_lending_rates",
+          "input": {
+            "rates": [
+              "owner_occupier_variable_standard"
+            ],
+            "start": "2025-06"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 4678,
+      "answer": "The advertised standard variable rate for owner-occupiers was **8.77% per year** in August 2026, the latest month available (RBA indicator lending rates, table F5).\n\nRecent changes:\n- It was 8.02% from August 2025 to January 2026.\n- It rose to 8.27% in February 2026 and 8.52% in March and April.\n- It reached 8.77% in May 2026 and has stayed there through August.\n\nThat is 0.75 percentage points above the January 2026 level.\n\nThis is the advertised \"standard\" rate. Rates actually paid on new loans are generally lower, because most borrowers get discounts. The RBA's F6 table has the actual rates paid."
+    },
+    {
+      "n": 12,
+      "q": "What's the going 3-year fixed rate for property investors?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 6.82,
+      "expectedTools": [
+        "get_lending_rates"
+      ],
+      "calls": [
+        {
+          "name": "get_lending_rates",
+          "input": {
+            "rates": [
+              "investor_3yr_fixed"
+            ],
+            "start": "2026-01"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 4531,
+      "answer": "The RBA's indicator rate for a bank 3-year fixed investor home loan was **6.82% p.a. in August 2026**. That's the latest figure available.\n\n- The rate has been 6.82–6.83% since April 2026.\n- It was 6.13% in January 2026, so it is up 0.69 percentage points since then.\n- Most of that rise came between February and April: 6.34% in February, 6.49% in March and 6.83% in April.\n\nThis is an advertised rate. Rates actually paid on new loans are usually lower, because lenders discount. The RBA publishes those in table F6 if you want them."
+    },
+    {
+      "n": 13,
+      "q": "What's the Aussie dollar worth in US dollars?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 0.6933,
+      "expectedTools": [
+        "get_exchange_rates"
+      ],
+      "calls": [
+        {
+          "name": "get_exchange_rates",
+          "input": {
+            "currencies": [
+              "USD"
+            ],
+            "monthly": false,
+            "start": "2026-09"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 3789,
+      "answer": "The Australian dollar was worth **US$0.6933** on 2 October 2026. That's the latest RBA 4pm AEST rate.\n\nThe currency has been falling. It was US$0.717 on 1 September, so it has lost about 2.4 US cents (roughly 3.3%) since then. It peaked at US$0.7232 on 9 September. It dropped below US$0.70 on 1 October."
+    },
+    {
+      "n": 14,
+      "q": "Where's the Australian dollar's trade-weighted index sitting?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 64.4,
+      "expectedTools": [
+        "get_exchange_rates"
+      ],
+      "calls": [
+        {
+          "name": "get_exchange_rates",
+          "input": {
+            "currencies": [
+              "TWI"
+            ],
+            "start": "2025-09"
+          },
+          "error": false
+        },
+        {
+          "name": "get_exchange_rates",
+          "input": {
+            "currencies": [
+              "TWI"
+            ],
+            "start": "2026-09",
+            "monthly": false
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 5323,
+      "answer": "The Australian dollar's trade-weighted index (TWI) was **64.4** on 2 October 2026, the latest reading. The index is set at 100 for May 1970.\n\n**Recent move:** The TWI has slipped about 1.8 points this month. It was 66.2 on 1 September and held around 66 until mid-month. It then fell from 65.8 on 23 September to 64.7 on 30 September.\n\n**Over the past year:**\n- The TWI is up about 3.1 points from 61.3 in September 2025.\n- It rose steadily from 61.2 in November 2025 to a peak of 66.6 in May 2026.\n- Since then it has ranged between about 64.6 and 66.2 at month-end.\n- The latest reading is at the low end of that range."
+    },
+    {
+      "n": 15,
+      "q": "Is Sydney back in the office on Fridays? What's the latest Friday vs midweek ratio for the CBD?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 0.783,
+      "expectedTools": [
+        "get_commute_pulse"
+      ],
+      "calls": [
+        {
+          "name": "get_commute_pulse",
+          "input": {
+            "view": "friday_gap",
+            "start": "2025-01"
+          },
+          "error": false
+        },
+        {
+          "name": "get_commute_pulse",
+          "input": {
+            "view": "baseline"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 6453,
+      "answer": "**Latest (September 2026): the Sydney CBD Friday ratio is 0.783.** Friday evening tap-ons (3–7pm, people leaving work) are about 78% of the Tuesday–Thursday average.\n\n**Compared with before COVID:** the baseline for 6 Jan – 6 Mar 2020 was 0.905. Fridays are therefore still well short of their pre-COVID position. The gap to midweek is roughly 22% now, against about 10% then. Fridays have recovered part of the way but not fully.\n\n**Recent trend:**\n- The ratio has barely moved in the last 20 months. It has stayed between 0.744 and 0.836 since January 2025.\n- The 2026 readings are 0.744 in January, 0.763 in February, 0.769 in March, 0.797 in April, 0.788 in May, 0.776 in June, 0.778 in July, 0.799 in August and 0.783 in September.\n- The 2025 high was 0.836 in April. The lows were 0.744 in December 2025 and January 2026, which are holiday-affected months.\n- September 2026 is up slightly on January 2025 (0.766), a gain of 0.017.\n\n**Caveat:** it's unclear whether Sydney Metro taps are counted in the CBD. That could understate CBD levels compared with 2020. The Friday-to-midweek ratio compares like with like within each period, so it should be less affected.\n\nSydney is not fully back in the office on Fridays. The recovery has plateaued at around 78–80% of midweek volume."
+    },
+    {
+      "n": 16,
+      "q": "Which has the bigger Friday drop-off, North Sydney or Chatswood? Give me North Sydney's ratio.",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 0.741,
+      "expectedTools": [
+        "get_commute_pulse"
+      ],
+      "calls": [
+        {
+          "name": "get_commute_pulse",
+          "input": {
+            "centres": [
+              "North Sydney",
+              "Chatswood"
+            ],
+            "view": "friday_gap",
+            "start": "2026-01"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 3766,
+      "answer": "**North Sydney has the bigger Friday drop-off.** Its ratio in September 2026, the latest month available, was **0.741**. That means Friday evening tap-ons (3–7pm) were about 74% of the Tuesday–Thursday average. Chatswood's ratio was 1.03, so it had essentially no Friday drop-off.\n\nNorth Sydney's ratio has stayed between 0.705 and 0.76 every month since January 2026. Chatswood's has stayed between 0.90 and 1.05 over the same months."
+    },
+    {
+      "n": 17,
+      "q": "Before COVID, how did Friday evening CBD travel compare to midweek?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 0.905,
+      "expectedTools": [
+        "get_commute_pulse"
+      ],
+      "calls": [
+        {
+          "name": "get_commute_pulse",
+          "input": {
+            "view": "baseline"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 4624,
+      "answer": "Before COVID, Friday evening travel in the Sydney CBD was about **90.5% of the midweek level**. That's a Friday gap of roughly 9.5%.\n\n- **What was measured:** Opal tap-ons between 3pm and 7pm, which is people leaving work. Friday volume was divided by the average of Tuesday to Thursday.\n- **Period:** the baseline window is 6 January to 6 March 2020. Public holidays, outages and documented data discrepancy windows are excluded.\n- **Monday for comparison:** Monday was about 100.1% of midweek, so it was essentially level.\n\nThe source notes that it's unclear whether Sydney Metro taps in the CBD are included. That could understate CBD levels compared with 2020. Ratios within a single period, like the 0.905 above, aren't affected."
+    },
+    {
+      "n": 18,
+      "q": "How fast are wages growing in Australia? Use the ABS Wage Price Index.",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": null,
+      "expectedTools": [
+        "abs_get_data"
+      ],
+      "calls": [
+        {
+          "name": "abs_describe_dataflow",
+          "input": {
+            "dataflow": "WPI"
+          },
+          "error": false
+        },
+        {
+          "name": "abs_get_data",
+          "input": {
+            "dataflow": "WPI",
+            "key": "2+3.THRPEB.7.TOT.20.AUS.Q",
+            "last_n": 8
+          },
+          "error": false
+        },
+        {
+          "name": "abs_get_data",
+          "input": {
+            "dataflow": "WPI",
+            "key": "2+3.THRPEB.1+2.TOT.20.AUS.Q",
+            "last_n": 2
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 12588,
+      "answer": "Australian wages are growing at about 3.2% a year, according to the ABS Wage Price Index for the June quarter 2026, the latest available.\n\nThe figures below are total hourly rates of pay excluding bonuses, seasonally adjusted, for all industries.\n\n- **Annual growth:** 3.2% in 2026-Q2, the same as in 2026-Q1.\n- **Quarterly growth:** 0.8% in 2026-Q2. It has been 0.8% in each of the last five quarters.\n- **Trend:** annual growth was 3.6% in 2024-Q3 and 3.2–3.5% since then. It was 3.4% in 2025-Q4.\n\n| Sector | Annual growth, 2026-Q2 | Quarterly growth, 2026-Q2 |\n|---|---|---|\n| Private | 3.1% | 0.7% |\n| Public | 3.4% | 0.9% |\n\nWage growth has settled at a steady pace of just over 3% a year and has eased slightly from 2024. To see whether wages are rising in real terms, compare this with the latest CPI inflation figure, which I haven't pulled here."
+    },
+    {
+      "n": 19,
+      "q": "How has Sydney rent moved against the cash rate since 2022?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": true,
+      "truth": 4.35,
+      "expectedTools": [
+        "get_cpi",
+        "get_cash_rate"
+      ],
+      "calls": [
+        {
+          "name": "get_cpi",
+          "input": {
+            "items": [
+              "rents"
+            ],
+            "cities": [
+              "sydney",
+              "australia"
+            ],
+            "measure": "annual_change",
+            "start": "2022-01"
+          },
+          "error": false
+        },
+        {
+          "name": "get_cpi",
+          "input": {
+            "items": [
+              "rents"
+            ],
+            "cities": [
+              "sydney"
+            ],
+            "measure": "index",
+            "start": "2022-01"
+          },
+          "error": false
+        },
+        {
+          "name": "get_cash_rate",
+          "input": {
+            "start": "2022-01"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 21314,
+      "answer": "Sydney rent inflation climbed as the cash rate rose, peaked a few months after the cash rate did, and has since settled at about 3.5%. It has barely reacted to the cuts in 2025 or the hikes in 2026.\n\n**Cash rate (RBA, monthly average)**\n- It was 0.10% from Jan to Apr 2022.\n- It reached 4.35% by Dec 2023 (4.10% in Jul 2023) and stayed there through Jan 2025.\n- It was cut to 3.60% by Sep 2025 and held there to Jan 2026.\n- It rose again to 3.83% in Feb 2026, 4.10% in Apr and 4.35% in Jun 2026. It was still 4.35% in Aug 2026.\n\n**Sydney rent inflation (ABS CPI, year-on-year)**\n- It was -1.2% in Q1 2022 and -0.3% in Q2 2022, when the cash rate was still near zero.\n- It rose to 3.3% in Q4 2022 and 7.3% in Q2 2023.\n- It peaked at 8.9% in Q1 2024, with the monthly series at 8.8% in Mar 2024. That was about four months after the cash rate reached 4.35%.\n- It then eased steadily, to 6.0% in Dec 2024, 3.7% in Jun 2025 and a low of 3.2% in Aug and Sep 2025.\n- Since then it has been flat at about 3.3–3.5%. It was 3.4% in Dec 2025 and 3.5% in Aug 2026.\n\n**How the two lined up**\n- **Rises:** Rents accelerated after the hikes began in May 2022, with a lag of about a year to their peak. Rents rose roughly 25% from Jul 2022 to Aug 2026 (index 82.6 to 103.3).\n- **Easing:** Rent inflation fell through 2024 while the cash rate was on hold at 4.35%. So the slowdown wasn't a direct response to a rate change.\n- **Cuts and re-hikes:** Rent inflation barely moved when the cash rate fell from 4.35% to 3.60% in 2025. It didn't pick up in 2026 as the rate climbed back to 4.35%.\n- **Sydney vs national:** Sydney ran hotter than the national figure through the peak, at 8.9% against 7.8% in Q1 2024. It is now close to it, at 3.5% against 3.6% in Aug 2026.\n\nThis data shows the timing but not the cause. Rents are also driven by vacancy rates, supply and migration, which these figures don't cover. Monthly rent CPI starts in mid-2023, so the earlier figures are quarterly."
+    },
+    {
+      "n": 20,
+      "q": "What interest rate are owner-occupiers actually paying on new variable home loans, not the advertised rate?",
+      "pass": true,
+      "toolOk": true,
+      "numberOk": null,
+      "expectedTools": [
+        "rba_series"
+      ],
+      "calls": [
+        {
+          "name": "rba_series",
+          "input": {
+            "table": "f6",
+            "search": "owner-occupier variable"
+          },
+          "error": false
+        },
+        {
+          "name": "rba_series",
+          "input": {
+            "table": "f6",
+            "series": [
+              "FLRHOFVA",
+              "FLRHOFVL",
+              "FLRHOOVA"
+            ],
+            "start": "2025-01"
+          },
+          "error": false
+        },
+        {
+          "name": "get_lending_rates",
+          "input": {
+            "rates": [
+              "owner_occupier_variable_discounted",
+              "owner_occupier_variable_standard"
+            ],
+            "start": "2025-01"
+          },
+          "error": false
+        },
+        {
+          "name": "get_cash_rate",
+          "input": {
+            "start": "2025-01"
+          },
+          "error": false
+        }
+      ],
+      "errors": 0,
+      "ms": 9310,
+      "answer": "New variable-rate owner-occupier loans are being funded at an average of **6.2% a year** (July 2026, the latest month in the RBA's F6 table). That figure covers all lenders. For large institutions alone it is also 6.2%.\n\n**Compared with advertised rates (July 2026, RBA F5):**\n- The actual rate on new loans is 6.2%.\n- The advertised discounted variable rate is 6.80%, so borrowers are paying about 0.6 percentage points less.\n- The advertised standard variable rate is 8.77%, about 2.6 points above what new borrowers actually pay.\n\n**Recent path of the actual rate on new loans:**\n- It was 6.3% in January 2025.\n- It fell to 5.5% from August 2025 through January 2026.\n- It rose again to 5.7% in February 2026, then 5.9%, 6.0%, 6.2% and 6.3% by June 2026.\n- It eased slightly to 6.2% in July 2026.\n- The cash rate average rose from 3.60% in January 2026 to 4.35% by June 2026, which matches the rise in loan rates.\n\nThe rate on existing variable loans (the whole stock, not just new loans) was also 6.2% in July 2026.\n\nThe F6 figures are rounded to one decimal place. Rates for particular borrowers vary with loan size, loan-to-valuation ratio and whether the loan is interest-only. F6 also has breakdowns for those groups if you want them."
+    }
+  ]
+}

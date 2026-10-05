@@ -1,0 +1,54 @@
+{
+  "name": "aussie-data-mcp",
+  "version": "0.1.0",
+  "description": "MCP server that lets Claude query ABS, RBA and Sydney Opal (Commute Pulse) data directly.",
+  "type": "module",
+  "bin": {
+    "aussie-data-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist/index.js",
+    "dist/abs.js",
+    "dist/rba.js",
+    "dist/commute.js",
+    "dist/csv.js",
+    "dist/http.js",
+    "dist/series.js",
+    "data",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "smoke": "tsc && node dist/smoke.js",
+    "inspect": "tsc && npx @modelcontextprotocol/inspector node dist/index.js",
+    "sync:commute": "cp ../compute-pulse/out/weekday_gap_monthly.csv ../compute-pulse/out/baseline_pre_covid.csv ../compute-pulse/out/cbd_hourly_profile.csv ../compute-pulse/out/suburban_morning.csv data/commute-pulse/",
+    "prepublishOnly": "tsc",
+    "eval": "tsc && node dist/eval.js",
+    "eval:keychain": "ANTHROPIC_API_KEY=$(security find-generic-password -s aussie-data-mcp-anthropic -w) npm run eval --"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "abs",
+    "rba",
+    "australia",
+    "economics",
+    "opal",
+    "claude"
+  ],
+  "author": "Dylan Lewis (https://dylanlewis.au)",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@anthropic-ai/sdk": "^0.131.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}
