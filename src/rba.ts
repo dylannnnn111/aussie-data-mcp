@@ -85,6 +85,18 @@ export async function getCashRate(a: { start?: string; end?: string }): Promise<
   const t = await loadRbaTable("f1.1");
   const { series, notes } = extractSeries(t, ["FIRMMCRT"], { ...a, names: { FIRMMCRT: "Cash rate target (monthly average)" } });
   notes.push("Monthly average of the RBA cash rate target. Periods are month-end dates.");
+  // A monthly average hides a change made late in the month (a hike on the 30th shows as +0.01),
+  // so give the current target from the daily table too.
+  if (!a.end) {
+    try {
+      const d = await loadRbaTable("f1");
+      const since = new Date(Date.now() - 120 * 864e5).toISOString().slice(0, 7);
+      const now = extractSeries(d, ["FIRMMCRTD"], { start: since }).series[0];
+      if (now?.latest) notes.push(`Current cash rate target: ${now.latest.value}% as at ${now.latest.period} (RBA F1, daily). Quote this as today's rate, not the monthly average.`);
+    } catch {
+      notes.push("Couldn't fetch the daily cash rate target (RBA F1), so the latest month's average may lag a recent change.");
+    }
+  }
   return { source: "RBA F1.1 Interest Rates and Yields - Money Market", sourceUrl: t.url, series, notes };
 }
 
@@ -97,7 +109,8 @@ export const LENDING_RATES = {
   investor_3yr_fixed: "FILRHL3YFI",
   small_business_variable: "FILRSBVRT",
   credit_card_standard: "FILRPLRCCS",
-  personal_loan_fixed: "FILRPLTUF",
+  credit_card_low_rate: "FILRPLRCCL",
+  personal_loan_fixed: "FILRPLTUF", // discontinued by the RBA after Feb 2020 - kept so old calls still work, flagged in notes
 } as const;
 
 export async function getLendingRates(a: { rates: (keyof typeof LENDING_RATES)[]; start?: string; end?: string }): Promise<Result> {
@@ -106,6 +119,11 @@ export async function getLendingRates(a: { rates: (keyof typeof LENDING_RATES)[]
   const names = Object.fromEntries(t.columns.map((c) => [c.id, c.title.replace(/^Lending rates; /, "")]));
   const { series, notes } = extractSeries(t, ids, { start: a.start, end: a.end, names });
   notes.push("RBA indicator (advertised) rates from table F5, monthly. Rates actually paid on new loans are lower - see RBA table F6 via rba_series.");
+  // Flag discontinued series so a model doesn't quote a years-old figure as current
+  const yearAgo = new Date(Date.now() - 365 * 864e5).toISOString().slice(0, 10);
+  for (const s of series) {
+    if (!a.end && s.latest && s.latest.period < yearAgo) notes.push(`${s.name} has no data after ${s.latest.period.slice(0, 7)} - the RBA stopped publishing it. There is no current figure; don't present ${s.latest.value}% as today's rate.`);
+  }
   return { source: "RBA F5 Indicator Lending Rates", sourceUrl: t.url, series, notes };
 }
 

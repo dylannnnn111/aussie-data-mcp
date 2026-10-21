@@ -1,6 +1,6 @@
 {
   "name": "aussie-data-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "MCP server that lets Claude query ABS, RBA and Sydney Opal (Commute Pulse) data directly.",
   "mcpName": "io.github.dylannnnn111/aussie-data-mcp",
   "type": "module",

@@ -11,7 +11,7 @@ Ask things like "how has Sydney rent moved against the cash rate since 2022?" an
 | `get_cpi` | Inflation by item and capital city (headline, trimmed mean, rents, electricity...) | ABS monthly CPI |
 | `get_labour_force` | Unemployment, participation, employment by state | ABS Labour Force |
 | `get_cash_rate` | RBA cash rate target, monthly | RBA F1.1 |
-| `get_lending_rates` | Home loan, business and personal lending rates | RBA F5 |
+| `get_lending_rates` | Home loan, business and credit card rates (advertised) | RBA F5 |
 | `get_exchange_rates` | AUD against 18 currencies, plus the TWI | RBA F11.1 |
 | `rba_series` | Any other RBA table (list its series, then fetch) | RBA statistical tables |
 | `get_commute_pulse` | Sydney's Friday gap and return-to-office patterns since 2020 | TfNSW Opal Tap Data |

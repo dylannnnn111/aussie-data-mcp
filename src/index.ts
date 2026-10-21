@@ -66,7 +66,7 @@ server.registerTool("get_cash_rate", {
 
 server.registerTool("get_lending_rates", {
   title: "Mortgage and loan rates",
-  description: "RBA indicator lending rates (advertised, % per year), monthly: home loans for owner-occupiers and investors (variable standard, variable discounted, 3-year fixed), small business, credit cards and personal loans.",
+  description: "RBA indicator lending rates (advertised, % per year), monthly: home loans for owner-occupiers and investors (variable standard, variable discounted, 3-year fixed), small business and credit cards (standard and low rate). personal_loan_fixed is historical only - the RBA stopped that series after Feb 2020.",
   inputSchema: {
     rates: z.array(z.enum(keys(LENDING_RATES))).min(1).default(["owner_occupier_variable_discounted"]),
     start, end,
