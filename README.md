@@ -1,5 +1,7 @@
 # Aussie Data MCP
 
+[![CI](https://github.com/dylannnnn111/aussie-data-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/dylannnnn111/aussie-data-mcp/actions/workflows/ci.yml) [![Health check](https://github.com/dylannnnn111/aussie-data-mcp/actions/workflows/health.yml/badge.svg)](https://github.com/dylannnnn111/aussie-data-mcp/actions/workflows/health.yml)
+
 An MCP server that lets Claude (or any MCP client) query Australian economic and transport data directly: ABS, RBA, and Sydney Opal tap data from [Commute Pulse](https://dylanlewis.au/projects/commute-pulse).
 
 Ask things like "how has Sydney rent moved against the cash rate since 2022?" and the model pulls the real series instead of guessing.
@@ -53,6 +55,10 @@ npm run inspect   # opens the MCP Inspector against the server
 Responses are cached for 6 hours (memory + temp dir). Override with `AUSSIE_DATA_CACHE_TTL_HOURS` and `AUSSIE_DATA_CACHE_DIR`.
 
 Commute Pulse data is a bundled snapshot of that pipeline's outputs. After re-running it, refresh with `npm run sync:commute`.
+
+## Health check
+
+Every morning a GitHub Action calls the live ABS and RBA APIs the way the tools do and appends the result to [`health/log.jsonl`](health/log.jsonl): which checks passed, how long each took, and the latest period and value each returned. [`health/latest.md`](health/latest.md) is the last run. If a source fails, returns nothing, changes how many series it sends, goes backwards, adds a new note or goes stale, the Action opens a `health` issue (or comments on the open one). Run it yourself with `npm run health`.
 
 ## Data and licences
 

@@ -1,0 +1,45 @@
+name: Health check
+
+# Every morning: call the live ABS and RBA APIs the way the tools do, log the result to health/,
+# and open (or comment on) an issue if a source failed, went stale or changed shape since yesterday.
+on:
+  schedule:
+    - cron: "17 21 * * *" # 8:17 am in Sydney during daylight saving
+  workflow_dispatch:
+
+# The only job in this repo that can write: it commits the log and opens issues. CI stays read-only.
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: health
+  cancel-in-progress: false
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - run: npm ci
+      - name: Check every live source
+        run: npm run health
+      - name: Save the log
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add health/log.jsonl health/latest.md
+          git commit -m "Health check $(date -u +%Y-%m-%d)" || echo "Nothing to commit"
+          git push
+      - name: Open or update an issue if something changed
+        if: hashFiles('health/drift.txt') != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create health --color E0533F --description "Daily health check" --force
+          n=$(gh issue list --label health --state open --json number --jq '.[0].number // empty')
+          if [ -n "$n" ]; then
+            gh issue comment "$n" --body-file health/drift.txt
+          else
+            gh issue create --title "Health check: a data source needs attention" --label health --body-file health/drift.txt
+          fi
