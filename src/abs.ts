@@ -1,5 +1,6 @@
 // Australian Bureau of Statistics - SDMX Data API (https://data.api.abs.gov.au). No key needed.
 import { parseCsvObjects } from "./csv.js";
+import { checkId } from "./validate.js";
 import { fetchText, UpstreamError } from "./http.js";
 import { makeSeries, Point, Result, Series, thin } from "./series.js";
 
@@ -36,6 +37,8 @@ export interface AbsRawSeries {
 }
 
 export function absDataUrl(q: AbsQuery): string {
+  checkId("absDataflow", q.dataflow);
+  if (q.key) checkId("absKey", q.key);
   const flow = q.dataflow.includes(",") ? q.dataflow : `ABS,${q.dataflow}`;
   const params = new URLSearchParams();
   if (q.startPeriod) params.set("startPeriod", q.startPeriod);
@@ -265,7 +268,7 @@ export async function searchDataflows(query: string, limit = 15): Promise<Datafl
 export interface DimensionInfo { id: string; position: number; codes: { code: string; label: string }[]; totalCodes: number }
 
 export async function describeDataflow(id: string, maxCodes = 60): Promise<{ id: string; name: string; dimensions: DimensionInfo[]; keyTemplate: string }> {
-  const xml = await fetchText(`${BASE}/dataflow/ABS/${encodeURIComponent(id)}/latest?references=all&detail=referencepartial`, XML);
+  const xml = await fetchText(`${BASE}/dataflow/ABS/${encodeURIComponent(checkId("absDataflow", id))}/latest?references=all&detail=referencepartial`, XML);
   const codelists = new Map<string, { code: string; label: string }[]>();
   for (const m of xml.matchAll(/<structure:Codelist [^>]*\bid="([^"]+)"[^>]*>([\s\S]*?)<\/structure:Codelist>/g)) {
     const codes = [...m[2].matchAll(/<structure:Code id="([^"]+)"[^>]*>[\s\S]*?<common:Name xml:lang="en">([^<]*)<\/common:Name>/g)].map((c) => ({ code: c[1], label: decode(c[2]) }));

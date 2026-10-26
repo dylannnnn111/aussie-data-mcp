@@ -1,6 +1,6 @@
 {
   "name": "aussie-data-mcp",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "MCP server that lets Claude query ABS, RBA and Sydney Opal (Commute Pulse) data directly.",
   "mcpName": "io.github.dylannnnn111/aussie-data-mcp",
   "type": "module",
@@ -15,12 +15,14 @@
     "dist/csv.js",
     "dist/http.js",
     "dist/series.js",
+    "dist/validate.js",
     "data",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
     "build": "tsc",
+    "test": "tsc && node --test dist/validate.test.js",
     "smoke": "tsc && node dist/smoke.js",
     "inspect": "tsc && npx @modelcontextprotocol/inspector node dist/index.js",
     "sync:commute": "cp ../compute-pulse/out/weekday_gap_monthly.csv ../compute-pulse/out/baseline_pre_covid.csv ../compute-pulse/out/cbd_hourly_profile.csv ../compute-pulse/out/suburban_morning.csv data/commute-pulse/",

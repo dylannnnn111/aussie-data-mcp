@@ -38,6 +38,10 @@ Add this to `claude_desktop_config.json` (Settings > Developer > Edit Config):
 
 Or from a local clone, point it at the build: `"command": "node", "args": ["/path/to/aussie-data-mcp/dist/index.js"]`.
 
+`npx -y aussie-data-mcp` runs the newest published version every time Claude starts. To stay on a version you have checked, pin it: `"args": ["-y", "aussie-data-mcp@0.2.1"]`.
+
+Every id the model passes in (RBA table, ABS dataflow, SDMX key, CPI code) is checked against the shape of a real id before it goes into a request URL. `npm test` covers those checks.
+
 ## Develop
 
 ```bash

@@ -1,6 +1,7 @@
 // Reserve Bank of Australia statistical tables (https://www.rba.gov.au/statistics/tables/). CSV, no key.
 import { parseCsv } from "./csv.js";
 import { fetchText } from "./http.js";
+import { checkId } from "./validate.js";
 import { inRange, makeSeries, monthlyLast, Point, Result, Series, thin } from "./series.js";
 
 export interface RbaColumn { id: string; title: string; description: string; unit: string; frequency: string; type: string; source: string; published: string }
@@ -18,7 +19,7 @@ export function parseRbaDate(s: string): string | null {
 }
 
 export function tableUrl(table: string): string {
-  return `https://www.rba.gov.au/statistics/tables/csv/${table.toLowerCase()}-data.csv`;
+  return `https://www.rba.gov.au/statistics/tables/csv/${checkId("rbaTable", table).toLowerCase()}-data.csv`;
 }
 
 export function parseRbaTable(table: string, text: string): RbaTable {
