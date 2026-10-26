@@ -18,14 +18,27 @@ export interface Run {
   checks: CheckResult[];
 }
 
-/** Days old a check's latest period may be before it counts as stale. */
+/** Days since the END of a check's latest period before it counts as stale (monthly data is released weeks after the month ends). */
 export const MAX_AGE_DAYS: Record<string, number> = {
-  cpi: 75, // monthly CPI, released about 4 weeks after the month
+  cpi: 75, // monthly CPI, released about 4 weeks after the month ends
   labour_force: 60,
   cash_rate: 45, // monthly average from F1.1
   lending_rates: 75,
   exchange_rates: 45,
 };
+
+/** Last day of a period string (YYYY, YYYY-MM, YYYY-MM-DD or YYYY-Qn). */
+export function periodEnd(p: string): Date | null {
+  let m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(p);
+  if (m) return new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+  m = /^(\d{4})-(\d{2})$/.exec(p);
+  if (m) return new Date(Date.UTC(+m[1], +m[2], 0));
+  m = /^(\d{4})-Q([1-4])$/.exec(p);
+  if (m) return new Date(Date.UTC(+m[1], +m[2] * 3, 0));
+  m = /^(\d{4})$/.exec(p);
+  if (m) return new Date(Date.UTC(+m[1], 11, 31));
+  return null;
+}
 
 /** First day of a period string (YYYY, YYYY-MM, YYYY-MM-DD or YYYY-Qn). */
 export function periodStart(p: string): Date | null {
@@ -55,10 +68,10 @@ export function findDrift(today: Run, previous: Run | undefined, now = new Date(
     if (p?.ok && (p.notes ?? 0) < (c.notes ?? 0))
       out.push(`${c.id}: new note(s) in the result (${p.notes ?? 0} to ${c.notes})`);
     const max = MAX_AGE_DAYS[c.id];
-    const start = c.latestPeriod ? periodStart(c.latestPeriod) : null;
-    if (max && start) {
-      const age = Math.floor((now.getTime() - start.getTime()) / 86_400_000);
-      if (age > max) out.push(`${c.id}: latest period ${c.latestPeriod} is ${age} days old (limit ${max})`);
+    const end = c.latestPeriod ? periodEnd(c.latestPeriod) : null;
+    if (max && end) {
+      const age = Math.floor((now.getTime() - end.getTime()) / 86_400_000);
+      if (age > max) out.push(`${c.id}: latest period ${c.latestPeriod} ended ${age} days ago (limit ${max})`);
     }
   }
   for (const id of prev.keys()) if (!today.checks.some((c) => c.id === id)) out.push(`${id}: check missing from today's run`);
