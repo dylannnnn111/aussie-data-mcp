@@ -5,3 +5,4 @@ probe-out/
 .env
 .env.*
 *.key
+health/drift.txt

@@ -6,6 +6,7 @@ import { z } from "zod";
 import { CPI_CITIES, CPI_ITEMS, CPI_MEASURES, describeDataflow, getCpi, getLabourForce, LF_MEASURES, LF_STATES, absFetch, absDataUrl, nameSeries, searchDataflows } from "./abs.js";
 import { CENTRES, getCommutePulse } from "./commute.js";
 import { CURRENCIES, getCashRate, getExchangeRates, getLendingRates, LENDING_RATES, rbaSeries } from "./rba.js";
+import { ID_PATTERNS } from "./validate.js";
 
 const server = new McpServer({ name: "aussie-data", version: "0.1.0" });
 
@@ -36,7 +37,7 @@ server.registerTool("get_cpi", {
     "The RBA's preferred underlying measure is trimmed_mean. For rent inflation use item 'rents'. " +
     "Other items can be passed as an ABS CPI index code (find codes with abs_describe_dataflow on 'CPI').",
   inputSchema: {
-    items: z.array(z.string()).min(1).default(["all_groups"]).describe(`One or more of: ${Object.keys(CPI_ITEMS).join(", ")} - or a raw ABS CPI index code.`),
+    items: z.array(z.string().regex(ID_PATTERNS.absCode.re, ID_PATTERNS.absCode.hint)).min(1).default(["all_groups"]).describe(`One or more of: ${Object.keys(CPI_ITEMS).join(", ")} - or a raw ABS CPI index code.`),
     cities: z.array(z.enum(keys(CPI_CITIES))).min(1).default(["australia"]).describe("Capital cities, or 'australia' for the weighted average of the eight capitals."),
     measure: z.enum(keys(CPI_MEASURES)).default("annual_change"),
     adjustment: z.enum(["original", "seasonally_adjusted"]).default("original").describe("Falls back to whatever ABS publishes (trimmed mean is seasonally adjusted only)."),
@@ -89,7 +90,7 @@ server.registerTool("rba_series", {
     "Fallback for RBA data the focused tools don't cover (e.g. f6 actual lending rates, f2 bond yields, g1 inflation expectations, d1 credit growth). " +
     "Call with just `table` to list its series, then again with `series` ids (or a `search` phrase) to get the data.",
   inputSchema: {
-    table: z.string().describe("RBA table id as on rba.gov.au/statistics/tables, e.g. f6, f2, g1, d1."),
+    table: z.string().regex(ID_PATTERNS.rbaTable.re, ID_PATTERNS.rbaTable.hint).describe("RBA table id as on rba.gov.au/statistics/tables, e.g. f6, f2, g1, d1."),
     series: z.array(z.string()).optional().describe("Series IDs from the table's list, e.g. FILRHLBVS."),
     search: z.string().optional().describe("Words that must all appear in the series title, e.g. 'owner-occupier variable'."),
     monthly: z.boolean().default(false).describe("Collapse daily/weekly series to month-end."),
@@ -120,7 +121,7 @@ server.registerTool("abs_describe_dataflow", {
   title: "Describe an ABS dataset",
   description: "List an ABS dataflow's dimensions (in key order) and their codes, so you can build an SDMX key for abs_get_data. Use `code_search` to find codes in big codelists (e.g. 'rent' in CPI's INDEX).",
   inputSchema: {
-    dataflow: z.string().describe("Dataflow id, e.g. WPI, CPI, LF, BA_GCCSA."),
+    dataflow: z.string().regex(ID_PATTERNS.absDataflow.re, ID_PATTERNS.absDataflow.hint).describe("Dataflow id, e.g. WPI, CPI, LF, BA_GCCSA."),
     code_search: z.string().optional().describe("Only return codes whose label contains this text."),
   },
 }, tool(async ({ dataflow, code_search }: { dataflow: string; code_search?: string }) => {
@@ -136,8 +137,8 @@ server.registerTool("abs_get_data", {
   title: "Get ABS data",
   description: "Fetch any ABS dataflow with an SDMX key from abs_describe_dataflow. Keep keys narrow - an empty key on a big dataflow returns thousands of series. Use last_n to just get the latest values.",
   inputSchema: {
-    dataflow: z.string(),
-    key: z.string().describe("SDMX key, e.g. '3.10001.10.50.M'. Use 'all' only with last_n on small dataflows."),
+    dataflow: z.string().regex(ID_PATTERNS.absDataflow.re, ID_PATTERNS.absDataflow.hint),
+    key: z.string().regex(ID_PATTERNS.absKey.re, ID_PATTERNS.absKey.hint).describe("SDMX key, e.g. '3.10001.10.50.M'. Use 'all' only with last_n on small dataflows."),
     last_n: z.number().int().min(1).max(500).optional().describe("Only the last N observations per series."),
     start, end,
   },
