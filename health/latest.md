@@ -1,16 +1,18 @@
 # Health check
 
-Last run 2026-11-14T01:29:04.370Z against aussie-data-mcp 0.2.1: 6/6 checks passed.
+Last run 2026-11-15T01:06:36.989Z against aussie-data-mcp 0.2.1: 5/6 checks passed.
 
 | Check | OK | ms | Series | Latest |
 | --- | --- | --- | --- | --- |
-| cpi | yes | 1988 | 1 | 2026-09 = 4.3 |
-| labour_force | yes | 1979 | 1 | 2026-09 = 4.7183 |
-| cash_rate | yes | 840 | 1 | 2026-10-31 = 4.6 |
-| lending_rates | yes | 257 | 1 | 2026-10-31 = 7.05 |
-| exchange_rates | yes | 227 | 1 | 2026-11 = 0.6804 |
-| abs_search | yes | 548 | 10 | - |
+| cpi | yes | 2419 | 1 | 2026-09 = 4.3 |
+| labour_force | yes | 1896 | 1 | 2026-09 = 4.7183 |
+| cash_rate | yes | 858 | 1 | 2026-10-31 = 4.6 |
+| lending_rates | yes | 261 | 1 | 2026-10-31 = 7.05 |
+| exchange_rates | yes | 198 | 1 | 2026-11 = 0.6804 |
+| abs_search | NO | 60002 | - | The operation was aborted due to timeout |
 
-Nothing changed shape since the previous run.
+## Needs attention
+
+- abs_search: failed - The operation was aborted due to timeout
 
 Full history: health/log.jsonl (one line per run).
